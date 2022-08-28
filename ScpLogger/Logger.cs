@@ -8,8 +8,23 @@ namespace ScpLogger
 {
     public class Logger
     {
-        public static string FileName = $"Log{DateTime.UtcNow.ToString("yyyy-dd-M--HH-mm-ss")}.txt";
+        public static string FileName = $"Log{DateTime.UtcNow:yyyy-dd-M--HH-mm-ss}.txt";
 
+        private static string _assemblyName = "";
+        public static string AssemblyName
+        {
+            get
+            { 
+               return _assemblyName;
+            }
+            set
+            {
+                if (value == null)
+                    _assemblyName = "Unknown program";
+                else
+                    _assemblyName = value;
+            }
+        }
         public static string HostName { get; set; }
         public static string LocalPath { get; set; }
         public static string RemotePath { get; set; }
@@ -29,15 +44,15 @@ namespace ScpLogger
 
         public static void UploadLog()
         {
-            ScpUploader uploader = new ScpUploader(HostName,UserName,Password,PortNumber,true);
+            ScpUploader uploader = new ScpUploader(HostName, UserName, Password, PortNumber, true);
             File.WriteAllLines(FileName, LogSum);
-            uploader.Upload(LocalPath,RemotePath);
+            uploader.Upload(LocalPath, RemotePath);
         }
 
         public static string Info(string message)
         {
             string result =
-                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{nameof(Info)}|| {message}";
+                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Info)}|| {message}";
             LogSum.Add(result);
             return result;
         }
@@ -45,7 +60,7 @@ namespace ScpLogger
         public static string Warning(string message)
         {
             string result =
-                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{nameof(Warning)}|| {message}";
+                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Warning)}|| {message}";
             LogSum.Add(result);
             return result;
         }
@@ -53,7 +68,7 @@ namespace ScpLogger
         public static string Error(string message)
         {
             string result =
-                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{nameof(Error)}|| {message}";
+                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Error)}|| {message}";
             LogSum.Add(result);
             return result;
         }
