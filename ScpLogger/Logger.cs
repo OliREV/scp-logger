@@ -10,7 +10,15 @@ namespace ScpLogger
     {
         public static string FileName = $"Log{DateTime.UtcNow:yyyy-dd-M--HH-mm-ss}.txt";
 
+        /// <summary>
+        /// Determines whether the file needs to be saved to a remote machine or only locally. True if only locally.
+        /// </summary>
+        public static bool LogOnlyToLocalPath { get; set; }
+
         private static string _assemblyName = "";
+        /// <summary>
+        /// Assembly name to determine the logging environment "Unknown program" if not set.
+        /// </summary>
         public static string AssemblyName
         {
             get
@@ -46,7 +54,10 @@ namespace ScpLogger
         {
             ScpUploader uploader = new ScpUploader(HostName, UserName, Password, PortNumber, true);
             File.WriteAllLines(FileName, LogSum);
-            uploader.Upload(LocalPath, RemotePath);
+            if (LogOnlyToLocalPath)
+                File.WriteAllLines(FileName, LogSum);
+            else
+                uploader.Upload(LocalPath, RemotePath);
         }
 
         public static string Info(string message)
