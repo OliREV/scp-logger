@@ -22,7 +22,6 @@ namespace ScpLogger
 
         public void Upload(string localPath,string remotePath)
         {
-
             SessionOptions sessionOptions = new SessionOptions
             {
                 Protocol = Protocol.Scp,
