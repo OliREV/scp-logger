@@ -50,14 +50,21 @@ namespace ScpLogger
             return externalIp.ToString();
         }
 
+        /// <summary>
+        /// Uploads the existing logs to the location. If LogOnlyToLocalPath set to true then the program Debug folder will contain the log by default.
+        /// You can change that by setting FileName variable to another path. Containing the filename too.
+        /// </summary>
         public static void UploadLog()
         {
-            ScpUploader uploader = new ScpUploader(HostName, UserName, Password, PortNumber, true);
+            ScpUploader uploader = null;
             File.WriteAllLines(FileName, LogSum);
             if (LogOnlyToLocalPath)
                 File.WriteAllLines(FileName, LogSum);
             else
+            {
+                uploader = new ScpUploader(HostName, UserName, Password, PortNumber, true);
                 uploader.Upload(LocalPath, RemotePath);
+            }
         }
 
         public static string Info(string message)
