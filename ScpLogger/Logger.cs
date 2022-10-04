@@ -2,18 +2,29 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using WinSCP;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace ScpLogger
 {
     public class Logger
     {
-        public static string FileName = $"Log{DateTime.UtcNow:yyyy-dd-M--HH-mm-ss}.txt";
+        public string FileName = $"Log{DateTime.UtcNow:yyyy-dd-M--HH-mm-ss}.txt";
+        /// <summary>
+        /// Format: 
+        /// </summary>
+        public string HostName { get; set; }
+        public string LocalPath { get; set; }
+        public string RemotePath { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public int PortNumber { get; set; }
+        internal List<string> LogSum = new List<string>();
 
         /// <summary>
         /// Determines whether the file needs to be saved to a remote machine or only locally. True if only locally.
         /// </summary>
-        public static bool LogOnlyToLocalPath { get; set; }
+        public bool LogOnlyToLocalPath { get; set; }
 
         private static string _assemblyName = "";
         /// <summary>
@@ -22,8 +33,8 @@ namespace ScpLogger
         public static string AssemblyName
         {
             get
-            { 
-               return _assemblyName;
+            {
+                return _assemblyName;
             }
             set
             {
@@ -33,14 +44,8 @@ namespace ScpLogger
                     _assemblyName = value;
             }
         }
-        public static string HostName { get; set; }
-        public static string LocalPath { get; set; }
-        public static string RemotePath { get; set; }
-        public static string UserName { get; set; }
-        public static string Password { get; set; }
-        public static int PortNumber { get; set; }
+        public Logger() { }
 
-        private static List<string> LogSum = new List<string>();
         private static string GetExternalIp()
         {
 
@@ -54,41 +59,54 @@ namespace ScpLogger
         /// Uploads the existing logs to the location. If LogOnlyToLocalPath set to true then the program Debug folder will contain the log by default.
         /// You can change that by setting FileName variable to another path. Containing the filename too.
         /// </summary>
-        public static void UploadLog()
+        public void UploadLog(Logger logger)
         {
-            ScpUploader uploader = null;
-            File.WriteAllLines(FileName, LogSum);
-            if (LogOnlyToLocalPath)
-                File.WriteAllLines(FileName, LogSum);
+            File.WriteAllLines(logger.FileName, logger.LogSum);
+            if (logger.LogOnlyToLocalPath)
+                File.WriteAllLines(logger.FileName, logger.LogSum);
             else
             {
-                uploader = new ScpUploader(HostName, UserName, Password, PortNumber, true);
-                uploader.Upload(LocalPath, RemotePath);
+                var uploader = new ScpUploader(logger.HostName, logger.UserName, logger.Password, logger.PortNumber, true);
+                uploader.Upload(logger.LocalPath??FileName, logger.RemotePath);
             }
         }
 
-        public static string Info(string message)
+        /// <summary>
+        /// Log an Info level severity message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public string Info(string message)
         {
             string result =
                 $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Info)}|| {message}";
             LogSum.Add(result);
             return result;
         }
-
-        public static string Warning(string message)
+        /// <summary>
+        /// Log an Warn level severity message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public string Warning(string message)
         {
             string result =
                 $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Warning)}|| {message}";
             LogSum.Add(result);
             return result;
         }
-
-        public static string Error(string message)
+        /// <summary>
+        /// Log an Error level severity message. Also throws an Error
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public string Error(string message, Exception exception)
         {
             string result =
                 $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Error)}|| {message}";
             LogSum.Add(result);
-            return result;
+
+            throw exception;
         }
     }
 }
