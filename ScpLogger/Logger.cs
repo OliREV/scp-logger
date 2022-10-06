@@ -92,6 +92,7 @@ namespace ScpLogger
         {
             string result =
                 $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Info)}|| {message}";
+            Console.WriteLine(result);
             LogSum.Add(result);
             return result;
         }
@@ -104,6 +105,7 @@ namespace ScpLogger
         {
             string result =
                 $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Warning)}|| {message}";
+            Console.WriteLine(result);
             LogSum.Add(result);
             return result;
         }
@@ -115,7 +117,8 @@ namespace ScpLogger
         public string Error(string message)
         {
             string result =
-                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Error)}|| {message}";
+                $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Error).ToUpper()}|| {message}";
+            Console.WriteLine(result);
             LogSum.Add(result);
 
             return result;
