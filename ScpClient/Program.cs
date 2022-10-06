@@ -16,6 +16,8 @@ namespace ScpClient
 
             Console.WriteLine("Working on it..");
 
+            _logger.Error("Failed to evaulate script");
+
             _logger.UploadLog(_logger);
 
             Console.ReadLine();

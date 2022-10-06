@@ -2,22 +2,39 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace ScpLogger
 {
     public class Logger
     {
+        /// <summary>
+        /// Format: "Log{DateTime.UtcNow:yyyy-dd-M--HH-mm-ss}.txt"
+        /// </summary>
         public string FileName = $"Log{DateTime.UtcNow:yyyy-dd-M--HH-mm-ss}.txt";
         /// <summary>
-        /// Format: 
+        /// HostName format is something like: {user}@{serverAddress}, Port needs to be defined in the PortNumber property.
         /// </summary>
         public string HostName { get; set; }
+        /// <summary>
+        /// File which needs to be uploaded.
+        /// </summary>
         public string LocalPath { get; set; }
+
+        /// <summary>
+        /// The path of the remote server wehre you can save the file. e.g. "/home/logs/"
+        /// </summary>
         public string RemotePath { get; set; }
+        /// <summary>
+        /// Name of the user for the server
+        /// </summary>
         public string UserName { get; set; }
+        /// <summary>
+        /// Value of the password for the user
+        /// </summary>
         public string Password { get; set; }
+        /// <summary>
+        /// Port number in integer form.
+        /// </summary>
         public int PortNumber { get; set; }
         internal List<string> LogSum = new List<string>();
 
@@ -26,25 +43,20 @@ namespace ScpLogger
         /// </summary>
         public bool LogOnlyToLocalPath { get; set; }
 
-        private static string _assemblyName = "";
+        private static string _assemblyName;
         /// <summary>
         /// Assembly name to determine the logging environment "Unknown program" if not set.
         /// </summary>
-        public static string AssemblyName
+        public string AssemblyName
         {
-            get
-            {
-                return _assemblyName;
-            }
-            set
-            {
-                if (value == null)
-                    _assemblyName = "Unknown program";
-                else
-                    _assemblyName = value;
-            }
+            get => _assemblyName;
+            set => _assemblyName = string.IsNullOrEmpty(value) ? "Unknown program" : value;
         }
-        public Logger() { }
+
+        public Logger()
+        {
+            AssemblyName = "";
+        }
 
         private static string GetExternalIp()
         {
@@ -100,13 +112,13 @@ namespace ScpLogger
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public string Error(string message, Exception exception)
+        public string Error(string message)
         {
             string result =
                 $"{DateTime.UtcNow}||{Environment.MachineName}||{GetExternalIp()}||{AssemblyName}||{nameof(Error)}|| {message}";
             LogSum.Add(result);
 
-            throw exception;
+            return result;
         }
     }
 }
