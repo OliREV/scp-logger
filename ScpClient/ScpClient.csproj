@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <VersionPrefix>1.0.2</VersionPrefix>
     <LangVersion>9</LangVersion>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="WinSCP" Version="5.21.3" />
+    <ProjectReference Include="..\ScpLogger\ScpLogger.csproj" />
   </ItemGroup>
 
 </Project>
