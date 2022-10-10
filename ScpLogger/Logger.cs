@@ -14,34 +14,34 @@ namespace ScpLogger
         /// <summary>
         /// HostName format is something like: {user}@{serverAddress}, Port needs to be defined in the PortNumber property.
         /// </summary>
-        public string HostName { get; set; }
+        public string HostName { get; init; }
         /// <summary>
         /// File which needs to be uploaded.
         /// </summary>
-        public string LocalPath { get; set; }
+        public string LocalPath { get; init; }
 
         /// <summary>
         /// The path of the remote server wehre you can save the file. e.g. "/home/logs/"
         /// </summary>
-        public string RemotePath { get; set; }
+        public string RemotePath { get; init; }
         /// <summary>
         /// Name of the user for the server
         /// </summary>
-        public string UserName { get; set; }
+        public string UserName { get; init; }
         /// <summary>
         /// Value of the password for the user
         /// </summary>
-        public string Password { get; set; }
+        public string Password { get; init; }
         /// <summary>
         /// Port number in integer form.
         /// </summary>
-        public int PortNumber { get; set; }
+        public int PortNumber { get; init; }
         internal List<string> LogSum = new List<string>();
 
         /// <summary>
         /// Determines whether the file needs to be saved to a remote machine or only locally. True if only locally.
         /// </summary>
-        public bool LogOnlyToLocalPath { get; set; }
+        public bool LogOnlyToLocalPath { get; init; }
 
         private static string _assemblyName;
         /// <summary>

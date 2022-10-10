@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <VersionPrefix>1.0.1</VersionPrefix>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
