@@ -29,6 +29,11 @@ namespace ScpLogger
         /// </summary>
         public string UserName { get; init; }
         /// <summary>
+        /// If "true" then the Logger stores the .txt file in the local directory too.
+        /// Otherwise the file will be only stored on the remote.
+        /// </summary>
+        public bool SaveLogFile { get; init; }
+        /// <summary>
         /// Value of the password for the user
         /// </summary>
         public string Password { get; init; }
@@ -73,13 +78,31 @@ namespace ScpLogger
         /// </summary>
         public void UploadLog(Logger logger)
         {
-            File.WriteAllLines(logger.FileName, logger.LogSum);
-            if (logger.LogOnlyToLocalPath)
+            if (SaveLogFile)
+            {
                 File.WriteAllLines(logger.FileName, logger.LogSum);
+                if (logger.LogOnlyToLocalPath)
+                    File.WriteAllLines(logger.FileName, logger.LogSum);
+                else
+                {
+                    var uploader = new ScpUploader(logger.HostName, logger.UserName, logger.Password, logger.PortNumber,
+                        true);
+                    uploader.Upload(logger.LocalPath ?? FileName, logger.RemotePath);
+                }
+            }
             else
             {
-                var uploader = new ScpUploader(logger.HostName, logger.UserName, logger.Password, logger.PortNumber, true);
-                uploader.Upload(logger.LocalPath??FileName, logger.RemotePath);
+                var path = logger.FileName;
+                File.WriteAllLines(logger.FileName, logger.LogSum);
+                if (logger.LogOnlyToLocalPath)
+                    File.WriteAllLines(logger.FileName, logger.LogSum);
+                else
+                {
+                    var uploader = new ScpUploader(logger.HostName, logger.UserName, logger.Password, logger.PortNumber,
+                        true);
+                    uploader.Upload(logger.LocalPath ?? FileName, logger.RemotePath);
+                }
+                File.Delete(path);
             }
         }
 
