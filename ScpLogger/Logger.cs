@@ -78,7 +78,6 @@ namespace ScpLogger
         /// </summary>
         public void UploadLog(Logger logger)
         {
-            var path = "";
             if (SaveLogFile)
             {
                 File.WriteAllLines(logger.FileName, logger.LogSum);
@@ -93,7 +92,7 @@ namespace ScpLogger
             }
             else
             {
-                path = logger.FileName;
+                var path = logger.FileName;
                 File.WriteAllLines(logger.FileName, logger.LogSum);
                 if (logger.LogOnlyToLocalPath)
                     File.WriteAllLines(logger.FileName, logger.LogSum);
