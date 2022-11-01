@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System;
 using System.Text;
 
@@ -17,7 +16,7 @@ namespace ScpLogger
                 RemotePath = "/home/adminpatent/passwordmanagerlogs/",
                 PortNumber = 2222,
                 AssemblyName = $"{nameof(ScpClient)}",
-                SaveLogFile = false
+                RemoveLogFile = false,
             };
             return logger;
         }

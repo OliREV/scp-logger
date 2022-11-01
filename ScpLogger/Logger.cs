@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ScpLogger
 {
@@ -32,7 +34,7 @@ namespace ScpLogger
         /// If "true" then the Logger stores the .txt file in the local directory too.
         /// Otherwise the file will be only stored on the remote.
         /// </summary>
-        public bool SaveLogFile { get; init; }
+        public bool RemoveLogFile { get; init; }
         /// <summary>
         /// Value of the password for the user
         /// </summary>
@@ -78,31 +80,24 @@ namespace ScpLogger
         /// </summary>
         public void UploadLog(Logger logger)
         {
-            if (SaveLogFile)
+            try
             {
-                File.WriteAllLines(logger.FileName, logger.LogSum);
+                var fileName = Path.Combine(Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData), FileName);
+
+                File.WriteAllLines(fileName, logger.LogSum);
                 if (logger.LogOnlyToLocalPath)
-                    File.WriteAllLines(logger.FileName, logger.LogSum);
+                    File.WriteAllLines(fileName, logger.LogSum);
                 else
                 {
                     var uploader = new ScpUploader(logger.HostName, logger.UserName, logger.Password, logger.PortNumber,
-                        true);
-                    uploader.Upload(logger.LocalPath ?? FileName, logger.RemotePath);
+                        true, RemoveLogFile);
+                    uploader.Upload(logger.LocalPath ?? Path.GetFullPath(fileName), logger.RemotePath);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var path = logger.FileName;
-                File.WriteAllLines(logger.FileName, logger.LogSum);
-                if (logger.LogOnlyToLocalPath)
-                    File.WriteAllLines(logger.FileName, logger.LogSum);
-                else
-                {
-                    var uploader = new ScpUploader(logger.HostName, logger.UserName, logger.Password, logger.PortNumber,
-                        true);
-                    uploader.Upload(logger.LocalPath ?? FileName, logger.RemotePath);
-                }
-                File.Delete(path);
+                Console.WriteLine($"Hiba történt : {ex.Message}");
             }
         }
 

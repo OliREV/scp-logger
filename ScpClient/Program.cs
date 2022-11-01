@@ -18,12 +18,12 @@ namespace ScpClient
 
             _logger.Error("Failed to evaluate script");
 
-            if (Convert.ToString(Console.ReadKey()) == Constants.EXIT_COMMAND)
+            if (Convert.ToString(Console.ReadLine()) == Constants.EXIT_COMMAND)
             {
                 Environment.Exit(0);
             }
 
-            while (Convert.ToString(Console.ReadKey()) != Constants.SEND_LOG_COMMAND)
+            while (Convert.ToString(Console.ReadLine()) != Constants.SEND_LOG_COMMAND)
             {
                 Console.WriteLine(Constants.UNKNOWN_COMMAND_MESSAGE);
                 Console.Write("scpclient@localhost:");
