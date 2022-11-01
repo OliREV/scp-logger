@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using WinSCP;
 
 namespace ScpLogger
@@ -10,14 +11,16 @@ namespace ScpLogger
         private static string Password { get; set; }
         private static int PortNumber { get; set; }
         private static bool GiveUpSecurity { get; set; }
+        private static bool RemoveFile { get; set; }
 
-        public ScpUploader(string hostName,string userName,string password,int portNumber,bool giveUpSecurity)
+        public ScpUploader(string hostName,string userName,string password,int portNumber,bool giveUpSecurity,bool removeFile)
         {
             HostName= hostName;
             UserName = userName;
             Password = password;
             PortNumber = portNumber;
             GiveUpSecurity = giveUpSecurity;
+            RemoveFile = removeFile;
         }
 
         public void Upload(string localPath,string remotePath)
@@ -29,7 +32,8 @@ namespace ScpLogger
                 UserName = UserName,
                 Password = Password,
                 PortNumber = PortNumber,
-                GiveUpSecurityAndAcceptAnySshHostKey = GiveUpSecurity
+                GiveUpSecurityAndAcceptAnySshHostKey = GiveUpSecurity,
+                
             };
 
             using (Session session = new Session())
@@ -43,11 +47,12 @@ namespace ScpLogger
 
                 TransferOperationResult transferResult;
                 transferResult =
-                    session.PutFiles(localPath, remotePath, false, transferOptions);
+                    session.PutFiles(localPath, remotePath, RemoveFile, transferOptions);
 
                 // Throw on any error
                 transferResult.Check();
-
+                //MessageBox.Show("File transfer error: " + transferResult.Transfers[0].Error + Environment.NewLine + "Details:" + Environment.NewLine + (((Exception)(transferResult.Transfers[0].Error)).InnerException).Message);
+                
                 // Print results
                 foreach (TransferEventArgs transfer in transferResult.Transfers)
                 {
