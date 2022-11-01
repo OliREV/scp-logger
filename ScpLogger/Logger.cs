@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ScpLogger
 {
@@ -97,7 +96,7 @@ namespace ScpLogger
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Hiba történt : {ex.Message}");
+                Console.WriteLine($"Error occurred : {ex.Message}");
             }
         }
 

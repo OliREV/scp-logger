@@ -16,7 +16,7 @@ namespace ScpLogger
                 RemotePath = "/home/adminpatent/passwordmanagerlogs/",
                 PortNumber = 2222,
                 AssemblyName = $"{nameof(ScpClient)}",
-                RemoveLogFile = false,
+                RemoveLogFile = true,
             };
             return logger;
         }
