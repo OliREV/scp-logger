@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace ScpLogger
 {
+    [ExcludeFromCodeCoverage]
     public class ScpClient
     {
         public Logger SetupLogger()
@@ -13,7 +15,7 @@ namespace ScpLogger
                 HostName = "adminpatent@78.92.254.124",
                 UserName = "adminpatent",
                 Password = "admin",
-                RemotePath = "/home/adminpatent/passwordmanagerlogs/",
+                RemotePath = "/home/adminpatent/patentlogs/",
                 PortNumber = 2222,
                 AssemblyName = $"{nameof(ScpClient)}",
                 RemoveLogFile = true,

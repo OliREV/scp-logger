@@ -5,7 +5,9 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScpLogger", "ScpLogger\ScpLogger.csproj", "{AEFA6091-8EB0-4064-BD05-AA7378E911D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScpClient", "ScpClient\ScpClient.csproj", "{4FBACB1F-047A-4A50-AB85-C1BA49A08D47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScpClient", "ScpClient\ScpClient.csproj", "{4FBACB1F-047A-4A50-AB85-C1BA49A08D47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScpLoggerTests", "ScpLoggerTests\ScpLoggerTests.csproj", "{2667CB01-35AA-4A3B-A22E-6C4705AB044E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4FBACB1F-047A-4A50-AB85-C1BA49A08D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FBACB1F-047A-4A50-AB85-C1BA49A08D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FBACB1F-047A-4A50-AB85-C1BA49A08D47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2667CB01-35AA-4A3B-A22E-6C4705AB044E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2667CB01-35AA-4A3B-A22E-6C4705AB044E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2667CB01-35AA-4A3B-A22E-6C4705AB044E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2667CB01-35AA-4A3B-A22E-6C4705AB044E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

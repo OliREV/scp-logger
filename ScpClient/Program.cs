@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ScpClient
 {
+    [ExcludeFromCodeCoverage]
     //A CLIENT WHICH ONLY CAN TEST SCPLOGGER BEHAVIOUR DON'T INCLUDE IN PRODUCTION CODE
     public class Program : ScpLogger.ScpClient
     {
@@ -21,6 +23,7 @@ namespace ScpClient
             if (Convert.ToString(Console.ReadLine()) == Constants.EXIT_COMMAND)
             {
                 Environment.Exit(0);
+                
             }
 
             while (Convert.ToString(Console.ReadLine()) != Constants.SEND_LOG_COMMAND)

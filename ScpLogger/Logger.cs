@@ -66,7 +66,6 @@ namespace ScpLogger
 
         private static string GetExternalIp()
         {
-
             string externalIpString = new WebClient().DownloadString("http://icanhazip.com").Replace("\\r\\n", "").Replace("\\n", "").Trim();
             var externalIp = IPAddress.Parse(externalIpString);
 

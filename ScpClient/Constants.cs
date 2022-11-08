@@ -1,5 +1,8 @@
-﻿namespace ScpClient
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ScpClient
 {
+    [ExcludeFromCodeCoverage]
     public class Constants
     {
         public const string SEND_LOG_COMMAND = "sendlog";
